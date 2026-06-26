@@ -15,12 +15,14 @@ public class PriorityFilter implements FilterStrategy{
 
     @Override
     public List<Task> filterTasks(List<Task> tasks) {
+        System.out.println("[PriorityFilter] Filtering " + tasks.size() + " task(s) by priority=" + priority);
         List<Task> result = new ArrayList<>();
         for(Task task : tasks){
             if(task.getPriority() == priority){
                 result.add(task);
             }
         }
+        System.out.println("[PriorityFilter] " + result.size() + " task(s) passed priority=" + priority + " filter");
         return result;
     }
 }

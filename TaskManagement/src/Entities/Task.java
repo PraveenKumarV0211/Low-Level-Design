@@ -14,6 +14,7 @@ public class Task {
         return id;
     }
 
+
     public void setId(String id) {
         this.id = id;
     }
@@ -90,6 +91,12 @@ public class Task {
         this.dueDate = dueDate;
     }
 
+    public void transitionStatus(TaskStatus newStatus, User changedBy) {
+        System.out.println("[Task] transitionStatus: task='" + title + "' | " + taskStatus + " -> " + newStatus + " | changedBy=" + changedBy.getName());
+        this.taskStatus = newStatus;
+        this.updatedAt = LocalDateTime.now();
+    }
+
     private String description;
     private User creator;
     private User assignee;
@@ -98,6 +105,9 @@ public class Task {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDate dueDate;
+
+
+    public TaskStatus getStatus() { return taskStatus; }
 
     public Task(Builder builder) {
         this.id = builder.id;
@@ -110,6 +120,9 @@ public class Task {
         this.assignee = builder.assignee;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
+        System.out.println("[Task] Created task -> id=" + id + ", title='" + title + "', priority=" + priority
+                + ", status=" + taskStatus + ", creator=" + (creator != null ? creator.getName() : "null")
+                + ", assignee=" + (assignee != null ? assignee.getName() : "null") + ", dueDate=" + dueDate);
     }
 
 
