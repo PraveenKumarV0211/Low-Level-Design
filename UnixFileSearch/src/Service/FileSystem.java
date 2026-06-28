@@ -29,31 +29,39 @@ public class FileSystem {
     }
 
     public List<Unit> search() {
-        return filterStrategy.dofilter(homeDirectory);
+        List<Unit> result = new ArrayList<>();
+        collectAll(homeDirectory, result);
+        List<Unit> filtered = new ArrayList<>();
+        for (Unit unit:result){
+            if(filterStrategy.dofilter(unit)){
+                filtered.add(unit);
+            }
+        }
+        return filtered;
     }
 
-    public void collectAll(Directory dir, List<Unit> result){
-        for (Unit unit: dir.getSubDirectories()){
+    public void collectAll(Directory dir, List<Unit> result) {
+        for (Unit unit : dir.getSubDirectories()) {
             result.add(unit);
-            if(unit instanceof Directory directory){
-                collectAll(directory,result);
+            if (unit instanceof Directory directory) {
+                collectAll(directory, result);
             }
         }
     }
 
-    public List<Unit> combinedFilters(List<Strategy> filters){
+    public List<Unit> combinedFilters(List<Strategy> filters) {
         List<Unit> result = new ArrayList<>();
-        collectAll(homeDirectory,result);
-       for (Strategy filter: filters){
-           List<Unit> filtered = new ArrayList<>();
-           for(Unit unit : result){
-               if(filter.dofilter(unit)){
-                   filtered.add(unit);
-               }
-           }
-           result = filtered;
-       }
-       return result;
+        collectAll(homeDirectory, result);
+        for (Strategy filter : filters) {
+            List<Unit> filtered = new ArrayList<>();
+            for (Unit unit : result) {
+                if (filter.dofilter(unit)) {
+                    filtered.add(unit);
+                }
+            }
+            result = filtered;
+        }
+        return result;
     }
 
 }

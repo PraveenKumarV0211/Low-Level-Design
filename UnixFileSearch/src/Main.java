@@ -1,7 +1,9 @@
 import Entities.Directory;
 import Entities.File;
 import Entities.Unit;
+import FilterStrategy.AndFilter;
 import FilterStrategy.ExtensionFilter;
+import FilterStrategy.OrFilter;
 import FilterStrategy.SizeFilter;
 import Service.FileSystem;
 
@@ -32,5 +34,24 @@ public class Main {
 
         System.out.println("Files with size > 10 AND .txt:");
         result.forEach(u -> System.out.println("  " + u.getName()));
+
+        fs.setFilterStrategy(new AndFilter(List.of(
+                new SizeFilter(10),
+                new ExtensionFilter("txt")
+        )));
+        List<Unit> result1 = fs.search();
+
+// size > 10 OR .txt
+        fs.setFilterStrategy(new OrFilter(List.of(
+                new SizeFilter(10),
+                new ExtensionFilter("txt")
+        )));
+        List<Unit> result2 = fs.search();
+
+        System.out.println("\nAND Filter (size > 10 AND .txt):");
+        result1.forEach(u -> System.out.println("  " + u.getName()));
+
+        System.out.println("\nOR Filter (size > 10 OR .txt):");
+        result2.forEach(u -> System.out.println("  " + u.getName()));
     }
 }
