@@ -27,4 +27,9 @@ public class ExtensionFilter implements Strategy {
         }
         return result;
     }
+
+    @Override
+    public boolean dofilter(Unit unit) {
+        return unit instanceof File && ((File) unit).getExtension().equals(this.extension);
+    }
 }

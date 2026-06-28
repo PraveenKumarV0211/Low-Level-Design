@@ -19,18 +19,18 @@ public class Main {
         fs.add(images);
 
         fs.add(docs, new File("notes", 5, "txt"));
-        fs.add(docs, new File("report", 15, "pdf"));
+        fs.add(docs, new File("report", 15, "txt"));
+        fs.add(docs, new File("summary", 20, "pdf"));
         fs.add(images, new File("photo", 20, "png"));
         fs.add(root, new File("readme", 10, "txt"));
 
-        fs.setFilterStrategy(new SizeFilter(10));
-        List<Unit> bigFiles = fs.search();
-        System.out.println("Files with size > 10:");
-        bigFiles.forEach(u -> System.out.println("  " + u.getName()));
+        // Combined: size > 10 AND .txt
+        List<Unit> result = fs.combinedFilters(List.of(
+                new SizeFilter(10),
+                new ExtensionFilter("txt")
+        ));
 
-        fs.setFilterStrategy(new ExtensionFilter("txt"));
-        List<Unit> txtFiles = fs.search();
-        System.out.println("TXT files:");
-        txtFiles.forEach(u -> System.out.println("  " + u.getName()));
+        System.out.println("Files with size > 10 AND .txt:");
+        result.forEach(u -> System.out.println("  " + u.getName()));
     }
 }

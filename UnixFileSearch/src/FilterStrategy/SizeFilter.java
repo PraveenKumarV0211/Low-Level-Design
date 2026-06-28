@@ -27,4 +27,9 @@ public class SizeFilter implements Strategy {
         }
         return result;
     }
+
+    @Override
+    public boolean dofilter(Unit unit) {
+        return unit.getSize() > this.size;
+    }
 }
