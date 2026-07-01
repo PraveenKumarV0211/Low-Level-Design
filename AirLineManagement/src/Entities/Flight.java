@@ -1,6 +1,8 @@
 package Entities;
 
+import Enums.FlightStatus;
 import Enums.SeatType;
+import Observer.FlightObserver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,5 +118,27 @@ public class Flight {
 
     public void setNumberOfStops(int numberOfStops) {
         this.numberOfStops = numberOfStops;
+    }
+
+    private List<FlightObserver> observers = new ArrayList<>();
+    private FlightStatus status;
+
+    public void addObserver(FlightObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(FlightObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void setStatus(FlightStatus status) {
+        this.status = status;
+        notifyObservers();
+    }
+
+    private void notifyObservers() {
+        for (FlightObserver observer : observers) {
+            observer.update(this.name, this.status);
+        }
     }
 }

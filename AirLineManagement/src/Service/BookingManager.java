@@ -7,6 +7,7 @@ import Entities.Seat;
 import Enums.BookingStatus;
 import Enums.SeatStatus;
 import Enums.SeatType;
+import Observer.EmailNotificationObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,35 @@ public class BookingManager {
     public List<Flight> flights;
     private Random random;
 
+
     public BookingManager(FlightSearch flightSearch) {
         this.search = flightSearch;
         this.flights = new ArrayList<>();
         random = new Random();
+    }
+
+    public FlightSearch getSearch() {
+        return search;
+    }
+
+    public void setSearch(FlightSearch search) {
+        this.search = search;
+    }
+
+    public List<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<Flight> flights) {
+        this.flights = flights;
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
     public void addFlight(Flight flight){
@@ -43,6 +69,7 @@ public class BookingManager {
                     availableSeat = true;
                     booking = new Booking(random.nextInt(), passenger, BookingStatus.ON_PROGRESS,seat,flight);
                     seat.setSeatStatus(SeatStatus.HOLD);
+                    flight.addObserver(new EmailNotificationObserver(passenger.getName(), passenger.getEmail()));
                     break;
                 }
             }
