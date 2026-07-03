@@ -49,4 +49,25 @@ public class Board {
         return cells[row][col];
     }
 
+    public boolean isPathClear(Cell start, Cell end) {
+        int rowDiff = end.getRow() - start.getRow();
+        int colDiff = end.getCol() - start.getCol();
+
+        int rowDir = Integer.signum(rowDiff);
+        int colDir = Integer.signum(colDiff);
+
+        int currentRow = start.getRow() + rowDir;
+        int currentCol = start.getCol() + colDir;
+
+        while (currentRow != end.getRow() || currentCol != end.getCol()) {
+            if (!cells[currentRow][currentCol].isEmpty()) {
+                return false;
+            }
+            currentRow += rowDir;
+            currentCol += colDir;
+        }
+
+        return true;
+    }
+
 }
