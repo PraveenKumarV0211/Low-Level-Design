@@ -5,10 +5,10 @@ import java.util.List;
 public class Locker {
     private int id;
     private List<LockerCell> lockerCellList;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
 
-    public Locker(int id, List<LockerCell> lockerCellList, long latitude, long longitude) {
+    public Locker(int id, List<LockerCell> lockerCellList, double latitude, double longitude) {
         this.id = id;
         this.lockerCellList = lockerCellList;
         this.latitude = latitude;
@@ -31,19 +31,19 @@ public class Locker {
         this.lockerCellList = lockerCellList;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }
