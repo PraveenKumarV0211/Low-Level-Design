@@ -37,7 +37,7 @@ public class DeliveryService {
         }
         freeCell.setAvailable(false);
         Reservation reservation = new Reservation(pack.getId(), locker.getId(), freeCell.getId(), ReservationStatus.WAITING);
-        reservations.put(pack.getId(), reservation);
+        reservations.put(reservation.getOtp(), reservation);
     }
 
 

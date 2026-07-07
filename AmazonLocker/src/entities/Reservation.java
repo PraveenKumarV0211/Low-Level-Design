@@ -3,8 +3,10 @@ package entities;
 import enums.ReservationStatus;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 public class Reservation {
+    Random random;
     private int packageId;
     private int lockerID;
     private int lockerCellID;
@@ -76,6 +78,8 @@ public class Reservation {
         this.reservationStatus = reservationStatus;
         this.assignedAt = LocalDateTime.now();
         this.expiresAt = this.assignedAt.plusDays(3);
+        random = new Random();
+        this.otp = random.nextInt(100);
     }
 
 
