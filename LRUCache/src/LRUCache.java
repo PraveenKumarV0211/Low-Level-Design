@@ -19,7 +19,7 @@ public class LRUCache {
         tail.setPrev(head);
     }
 
-    public int get(int key){
+    public synchronized int get(int key){
         if(map.containsKey(key)){
             Node temp = map.get(key);
             removeNode(temp);
@@ -29,7 +29,7 @@ public class LRUCache {
         return -1;
     }
 
-    public void set(int key,int val){
+    public synchronized void set(int key,int val){
         if (map.containsKey(key)){
             Node temp = map.get(key);
             temp.setValue(val);
