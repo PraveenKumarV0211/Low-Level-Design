@@ -4,6 +4,7 @@ import Enums.Crust;
 import Enums.SauceType;
 import Enums.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pizza {
@@ -23,13 +24,24 @@ public class Pizza {
         this.toppings = builder.toppings;
     }
 
+    @Override
+    public String toString() {
+        return "Builder{" +
+                "size=" + size +
+                ", crust=" + crust +
+                ", sauce=" + sauce +
+                ", extraCheese=" + extraCheese +
+                ", toppings=" + toppings +
+                '}';
+    }
+
     public static class Builder {
         private final Size size;
         private final Crust crust;
         // optional
         private  SauceType sauce;
         private  boolean extraCheese;
-        private  List<String> toppings;
+        private  List<String> toppings = new ArrayList<>();
 
         public Builder(Size size, Crust crust) {
             this.size = size;
