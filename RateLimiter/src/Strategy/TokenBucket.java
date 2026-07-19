@@ -1,34 +1,34 @@
 package Strategy;
 
-public class TokenBucket implements RateLimiterStrategy{
-
-    private long capacity;
-    private double refillRate;
-    private long lastRefilltimeStamp;
+public class TokenBucket {
+    private final int capacity;
+    private final double refillRatePerSecond;
     private double currentTokens;
+    private long lastRefillTimestamp;
 
-    public TokenBucket(long capacity, double refillRate) {
+    public TokenBucket(int capacity, double refillRatePerSecond) {
         this.capacity = capacity;
-        this.refillRate = refillRate;
-        this.lastRefilltimeStamp = System.nanoTime();
+        this.refillRatePerSecond = refillRatePerSecond;
+        this.currentTokens = capacity;
+        this.lastRefillTimestamp = System.nanoTime();
     }
 
-    @Override
-    public boolean allowRequest(int tokens){
-        if(capacity >= tokens){
-            capacity -= tokens;
+    public synchronized boolean allowRequest() {
+        refill();
+        if (currentTokens >= 1) {
+            currentTokens -= 1;
             return true;
         }
         return false;
     }
 
-    public void refill(){
+    private void refill() {
         long now = System.nanoTime();
-        long elapsedTime = now - lastRefilltimeStamp;
-        double tokenstoBeAdded = elapsedTime * refillRate;
-        if(tokenstoBeAdded > 0){
-            currentTokens = Math.min(capacity,currentTokens + tokenstoBeAdded);
-            lastRefilltimeStamp = now;
+        double elapsedSeconds = (now - lastRefillTimestamp) / 1_000_000_000.0;
+        double tokensToAdd = elapsedSeconds * refillRatePerSecond;
+        if (tokensToAdd > 0) {
+            currentTokens = Math.min(capacity, currentTokens + tokensToAdd);
+            lastRefillTimestamp = now;
         }
     }
 }
