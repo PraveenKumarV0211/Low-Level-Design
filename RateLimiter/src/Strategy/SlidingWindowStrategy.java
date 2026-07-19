@@ -1,5 +1,6 @@
 package Strategy;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +18,7 @@ public class SlidingWindowStrategy implements RateLimitingStrategy{
     @Override
     public boolean allowRequest(String clientId) {
         long now = System.nanoTime();
-        Deque<Long> requests = requestLogs.get(clientId);
+        Deque<Long> requests = requestLogs.getOrDefault(clientId, new ArrayDeque<>());
         synchronized (requests){
             while (!requests.isEmpty() && requests.peekFirst() <= now - windowSizeMillis){
                 requests.pollFirst();
